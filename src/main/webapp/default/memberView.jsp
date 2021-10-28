@@ -28,18 +28,18 @@ session : ${loginUser }
 	
 	<jsp:useBean id="dao" class="member.dao.MemberDAO"></jsp:useBean>
 	<jsp:useBean id="dto" class="member.dto.MemberDTO"></jsp:useBean>
-	<c:set var="d" value="${dao.member_info(param.id) }"/>	
+	<c:set var="d" value="${dao.member_info(param.userId) }"/>	
 		<div class="wrap">
 			<hr><br>			
-			아이디 :  ${d.id }<br>
+			아이디 :  ${d.userId }<br>
 			비밀번호 : ${d.pwd }<br>
 			이름 : ${d.name } <br>
 			이메일 : ${d.addr }<br>
 			<input type="button" value="뒤로가기 " onclick="location.href='memberList.jsp'">
 			<hr>
-			<c:if test="${loginUser == param.id }">
-				<button class="button" onclick="location.href='${contextPath }/member/modify.jsp?id=${d.id}'">수정</button>
-				<button class="button" onclick="location.href='${contextPath }/member/delete.jsp?id=${d.id}'">삭제</button>
+			<c:if test="${loginUser == param.userId }">
+				<button class="button" onclick="location.href='${contextPath }/member/modify.jsp?userId=${d.userId}'">수정</button>
+				<button class="button" onclick="location.href='${contextPath }/member/delete.jsp?userId=${d.userId}'">삭제</button>
 			</c:if>
 		</div>
 

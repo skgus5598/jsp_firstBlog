@@ -35,16 +35,16 @@
 			<h1 style="font-size: 50px;">PAge</h1>
 			<nav class="navMain">
 				<ul>
-					<li><a href="home.jsp">HOME</a></li>
-					<li><a href="introduce.jsp">INTRODUCE</a></li>
-					<li><a href="board.jsp">BOARD</a></li>
-					<li><a href="memberList.jsp">MEMBER LIST</a></li>					
+					<li><a href="${contextPath }/default/home.jsp">HOME</a></li>
+					<li><a href="${contextPath }/default/introduce.jsp">INTRODUCE</a></li>
+					<li><a href="${contextPath }/board/boardList.jsp">BOARD</a></li>
+					<li><a href="${contextPath }/default/memberList.jsp">MEMBER LIST</a></li>					
 					<c:choose>
 						<c:when test="${loginUser == null }">
-							<li><a href="loginPage.jsp">LOGIN</a></li>
+							<li><a href="${contextPath }/default/loginPage.jsp">LOGIN</a></li>
 						</c:when>
 						<c:otherwise>
-							<li><a href="logoutPage.jsp">LOGOUT</a></li>
+							<li><a href="${contextPath }/default/logoutPage.jsp">LOGOUT</a></li>
 						</c:otherwise>
 					</c:choose>
 				</ul>

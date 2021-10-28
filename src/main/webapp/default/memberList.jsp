@@ -29,33 +29,26 @@
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="header.jsp"></jsp:include>
 session : ${loginUser }
-
-<c:choose>
-	<c:when test="${loginUser  == null }">
-		<script type="text/javascript">
-			alert('로그인 먼저 진행하세요 ')
-			location.href="${contextPath}/default/loginPage.jsp"
-		</script>
-	</c:when>
-	<c:otherwise>
 		<jsp:useBean id="dao" class="member.dao.MemberDAO"/>
 		<c:set var="memberList" value="${dao.member_view() }"/>
 		<div class="wrap">
 		<h1>모든 회원 정보 </h1>
 		<c:forEach var="d" items="${memberList }">						
 				<hr><br>			
-				아이디 :  ${d.id }<br>
-				이름 : ${d.name } <br>
-				<c:if test="${loginUser == d.id }">
-					<a class="detail2"  href="${contextPath }/default/memberView.jsp?id=${d.id}">정보 보기 </a>
-				</c:if>
-				<c:if test="${loginUser != d.id }">
-					<a class="detail1"  href="${contextPath }/default/memberView.jsp?id=${d.id}">정보 보기 </a>
+				아이디 :  ${d.userId }<br>
+				<c:if test="${loginUser != null }">
+					이름 : ${d.name } <br>
+					<c:choose>
+						<c:when test="${loginUser == d.userId }">
+							<a class="detail2"  href="${contextPath }/default/memberView.jsp?userId=${d.userId}">정보 보기 </a>
+						</c:when>
+						<c:otherwise>
+							<a class="detail1"  href="${contextPath }/default/memberView.jsp?userId=${d.userId}">정보 보기 </a>
+						</c:otherwise>
+					</c:choose>				
 				</c:if>				
 		</c:forEach>
 	</div>
-	</c:otherwise>
-</c:choose>
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 </html>

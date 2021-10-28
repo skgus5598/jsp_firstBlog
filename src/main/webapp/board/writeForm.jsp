@@ -11,35 +11,56 @@
 <style>
 * {margin: 0;}
 .wrap {	width: 1040px;	margin: auto;}
-.header {	text-align: center;	padding-top: 30px;	padding-bottom: 30px;}
 .button {
 			margin-top:20px;
 			padding: 7px 25px; /*좌우 / 위아래 */
-			border-radius: 15px;
+			border-radius: 5px;
 			background-color: black; color: white;
 			text-align:center;	
 			border-color:white;
-			 margin-left: 500px;
+			 margin-left: 410px;
 		}
+.backBtn{
+			margin-top:20px;
+			padding: 7px 25px; /*좌우 / 위아래 */
+			border-radius: 5px;
+			background-color: black; color: white;
+			text-align:center;	
+			border-color:white;
+	}		
 .button:hover{background-color: rgb(255,200,255);}
+.form {padding-left: 250px;; padding-top: 20px;}
 </style>
 </head>
 <body>
-<div class="wrap">
-	<div class="header">
-		<h1 style="font-size: 50px; margin-bottom: 30px;">PAge</h1>	
-		<form action="#" method="post">
-			<textarea rows="2" cols="70" placeholder="제목을 적어주세요"></textarea><br>
-			<textarea rows="20" cols="70" placeholder="내용을 입력하세요"></textarea><br>
-			<input class="button" type="submit" value="done">
-			<input class="button" type="button" value="back" onclick="location.href='${contextPath}/default/board.jsp'">
-			
-		</form>
-		
-
-
-	</div>
+<jsp:include page="/default/header.jsp"></jsp:include>
+	<div class="wrap">
+		<div class="form">
+			<form action="${contextPath }/board/writeSave.jsp" method="post">
+				<table>				
+					<tr>
+						<td>User</td><td><input type="text" name="name" value="${loginUser }" readonly></td>
+					</tr>
+					<tr>
+						<td>Title</td>
+						<td>
+							<textarea name="title" rows="2" cols="50" placeholder="제목을 적어주세요"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>Content</td>
+						<td>
+							<textarea name="content" rows="20" cols="50" placeholder="내용을 입력하세요"></textarea>
+						</td>
+					</tr>
+					<tr>					
+						<td><input class="backBtn" type="button" value="back" onclick="location.href='${contextPath}/board/boardList.jsp'"></td>
+						<td><input class="button" type="submit" value="done">	</td>
+					</tr>				
+				</table>				
+			</form>
+		</div>		
 </div>
-
+<jsp:include page="/default/footer.jsp"></jsp:include>
 </body>
 </html>

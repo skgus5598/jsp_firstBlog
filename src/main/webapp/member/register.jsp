@@ -26,7 +26,7 @@
 	
 	<c:choose>
 		<c:when test="${result ==1 }">
-		<c:set var="loginUser" value="${param.id }" scope="session"/>
+		<c:set var="loginUser" value="${param.userId }" scope="session"/>
 			<script>
 				alert("회원가입을 축하합니다!");
 				location.href="../default/home.jsp"				

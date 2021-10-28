@@ -11,11 +11,20 @@
 <body>
 <jsp:include page="header.jsp"></jsp:include>
 	
-	<c:remove var="loginUser" scope="session"/>		
-	<script>
-			alert('로그아웃 성공! 세션 종료!')
-			location.href="${contextPath}/default/home.jsp"
-	</script>
+	<c:choose>
+		<c:when test="${loginUser != null }">
+			<script>
+				alert('${loginUser}님 로그아웃 성공! 세션 종료!')
+				location.href="${contextPath}/default/home.jsp"
+			</script>
+			<c:remove var="loginUser" scope="session"/>	
+		</c:when>
+		<c:otherwise>
+			<script>
+				location.href="${contextPath}/default/loginPage.jsp"
+			</script>	
+		</c:otherwise>
+	</c:choose>	
 
 <%--<c:redirect url="home.jsp"></c:redirect>  --%>
 

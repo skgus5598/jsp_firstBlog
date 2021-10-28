@@ -16,10 +16,10 @@
 	<jsp:setProperty property="*"  name="dto"/>
 	<c:set var="loginCheck" value="${dao.loginChk(dto) }"></c:set>
 	<c:choose>
-		<c:when test="${loginCheck.id == param.id }">
+		<c:when test="${loginCheck.userId == param.userId }">
 			<c:choose>
 				<c:when test="${loginCheck.pwd == param.pwd }">		
-					<c:set var="loginUser" value="${loginCheck.id }" scope="session"/> 		
+					<c:set var="loginUser" value="${loginCheck.userId }" scope="session"/> 		
 					<script type="text/javascript">
 						alert("로그인 성공!")						
 						location.href="../default/home.jsp"

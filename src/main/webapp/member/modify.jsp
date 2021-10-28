@@ -27,11 +27,11 @@
 <jsp:useBean id="dto" class="member.dto.MemberDTO"/>
 <jsp:useBean id="dao" class="member.dao.MemberDAO"/>
 <jsp:setProperty property="*" name="dto"/>
-<c:set var="mem" value="${dao.member_info(param.id) }"/>
+<c:set var="mem" value="${dao.member_info(param.userId) }"/>
 
 <form action="${contextPath }/member/modify_save.jsp" method="post">
-	<input type="hidden" name="id" value="${mem.id }">
-	아이디 : <label>${param.id }</label>	<br>
+	<input type="hidden" name="userId" value="${mem.userId }">
+	아이디 : <label>${param.userId }</label>	<br>
 	비밀번호 : <input type="text" name="pwd" value="${mem.pwd }"><br>
 	이름 : <input type="text" name="name" value="${mem.name }"><br>
 	이메일 : <input type="text" name="addr" value="${mem.addr }"><br>

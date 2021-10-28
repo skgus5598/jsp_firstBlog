@@ -15,12 +15,16 @@
 <fmt:requestEncoding value="utf-8"/>
 <jsp:include page="../default/header.jsp"></jsp:include>
 <jsp:useBean id="dao" class="member.dao.MemberDAO"/>
-	${dao.delete_mem(param.id) }
-	<script>
-		alert("${param.id} 삭제가 완료되었습니다.");
-		location.href="${contextPath}/default/memberList.jsp";
-	</script>
+<c:set var="result" value="${dao.delete_mem(param.userId) }"/>
 
+	<c:if test="${result == 1 }">
+		<script>
+			alert("${param.userId} 삭제가 완료되었습니다.");
+			location.href="${contextPath}/default/memberList.jsp";
+		</script>
+		<c:remove var="loginUser" scope="session" />	
+	</c:if>
+	
 
 	
 	

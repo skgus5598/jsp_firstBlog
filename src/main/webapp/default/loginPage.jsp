@@ -52,7 +52,7 @@
 					<td class="mainFirst">			
 					<form action="${contextPath }/member/loginConfirm.jsp">
 						<div class="mainFirst-a">	
-							<input type="text" name="id" placeholder="아이디"><br><br>
+							<input type="text" name="userId" placeholder="아이디"><br><br>
 							<input type="password" name="pwd" placeholder="비밀번호">		
 						</div>			
 						<div><button type="submit" class="button">로그인</button></div>
@@ -62,7 +62,7 @@
 					<td class="mainSec">
 					<form action="${contextPath }/member/register.jsp" method="post">
 						<div class="mainSec-a">								
-							<input type="text"  name="id" placeholder="input id"><br><br>
+							<input type="text"  name="userId" placeholder="input id"><br><br>
 							<input type="password" name="pwd" placeholder="input password"><br><br>
 							<input type="text" name="name" placeholder="input name"><br><br>
 							<input type="text" name="addr" placeholder="input address"><br><br>	
