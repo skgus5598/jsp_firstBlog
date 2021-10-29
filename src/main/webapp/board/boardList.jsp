@@ -29,6 +29,8 @@
 .firstTr{background-color: rgb(255,255,212);}
 a{text-decoration: none; color:green;}
 
+.pages {text-align: center;}
+
 </style>
 </head>
 <body>
@@ -48,8 +50,9 @@ a{text-decoration: none; color:green;}
 			        <th>Step</th>		
 			        <th>Indent</th>		
 			      </tr>
+			      <c:set var="pd" value="${dao.pagingNum(param.start) }"/>
 			      
-			      <c:forEach var="dto" items="${dao.list() }">			      
+			      <c:forEach var="dto" items="${dao.list(pd.startPage, pd.endPage) }">			      
 				      <tr>
 				        <td>${dto.id }</td>
 				        <td>${dto.name }</td>
@@ -62,6 +65,43 @@ a{text-decoration: none; color:green;}
 				      </tr>
 			     </c:forEach>
 			     
+			       <!--  여기 페이징처리!! --> 
+			     <tr class="pages">
+			     	<td colspan="8">
+			     	<c:choose>
+			     		<c:when test="${param.start == null }">
+			     			<c:set var="start" value="1"/>
+			     		</c:when>
+			     		<c:otherwise>
+			     			<c:set var="start" value="${param.start }"/>
+			     		</c:otherwise>
+			     	</c:choose>
+			    	
+			    	<c:choose>
+			    		<c:when test="${start >1 }">
+			    			<button onclick='location.href="boardList.jsp?start=${start -1}"'>이전</button>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<button disabled>이전</button>
+			    		</c:otherwise>
+			    	</c:choose>			    
+			     	
+				     <c:forEach var="cnt"  begin="1"  end="${pd.totEndPage }" step="1">
+				     		<a href="boardList.jsp?start=${cnt }">[${cnt }]</a>			     
+			     	  </c:forEach>
+			     	  			     	
+			     	  <c:choose>
+			     	  <c:when test="${start < pd.totEndPage }">
+			     	  		<button onclick="location.href='boardList.jsp?start=${start+1}'">다음</button>
+			     	  </c:when>
+			     	    <c:otherwise>
+			     	    	<button disabled>다음</button>
+			     	    </c:otherwise>
+			     	  </c:choose>
+			     	
+			     	</td>
+			     </tr>
+			     
 			     <tr>
 			     	<c:choose>
 			     		<c:when test="${loginUser != null }">
@@ -72,6 +112,7 @@ a{text-decoration: none; color:green;}
 			     		</c:otherwise>
 			     	</c:choose>
 			     </tr>
+			  
 			     
 			  </table>
 			</div>	

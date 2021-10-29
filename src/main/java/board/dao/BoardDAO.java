@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import board.dto.BoardDTO;
+import paging.PageDTO;
 
 
 public class BoardDAO {
@@ -27,11 +28,15 @@ public class BoardDAO {
 		}		
 	}
 	
-	public ArrayList<BoardDTO> list(){
+	public ArrayList<BoardDTO> list(int start, int end){
 		ArrayList<BoardDTO> list = new ArrayList<BoardDTO>();
-		String sql="select * from first_board";
-		try {
+	//	String sql="select * from first_board";
+		String sql ="select B.* from(select @rownum:=@rownum+1 rn, A.* from first_board A, (select @rownum:=0) R)B\n"
+				+ "where rn between ? and ?";
+		try{
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, start);
+			ps.setInt(2, end);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				BoardDTO d = new BoardDTO();
@@ -78,7 +83,6 @@ public class BoardDAO {
 				d = new BoardDTO();
 				d.setId(rs.getInt("id"));	}
 		} catch (Exception e) {	e.printStackTrace();	}
-		System.out.println(d.getId());
 		return d.getId();		
 	}
 	private void hitIdgroup(int id) {
@@ -169,12 +173,48 @@ public class BoardDAO {
 		}
 		int d = getId();
 		hitIdgroup(d);		
-		System.out.println(d);
-		System.out.println(dto.getContent());
-		System.out.println(dto.getTitle());
-		System.out.println(dto.getName());
+	}
+	public PageDTO pagingNum(int start) {
+		PageDTO pd = new PageDTO();
+		if(start == 0) {
+			start = 1;
+		}		
+		int pageNum = 5;
+		int totalPage = getTotalPage();//총 게시물 수를 알아야 얻어올 수 있다. 따로 로직 작성 
+		
+		int totEndPage = totalPage / pageNum;
+		if(totalPage % pageNum != 0) {
+			totEndPage ++;
+		}
+		int endPage = start * pageNum;
+		int startPage = endPage + 1 -pageNum;
+		
+		pd.setStartPage(startPage);
+		pd.setEndPage(endPage);
+		pd.setTotEndPage(totEndPage);
+	
+		return pd;		
+
+	}
+	public int getTotalPage() {
+		String sql = "select count(*) from first_board";
+		int totalPage=0;
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			if(rs.next()) {
+				totalPage = rs.getInt(1);
+			}			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return totalPage;
 	}
 	
 	
 	
 }
+
+
+
+
