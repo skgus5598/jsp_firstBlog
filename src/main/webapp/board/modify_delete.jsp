@@ -12,7 +12,18 @@
 </head>
 <body>
 <jsp:useBean id="dao" class="board.dao.BoardDAO"></jsp:useBean>
-${dao.delete(param.id) }
-<%response.sendRedirect("boardList.jsp") ;%>
+
+<c:choose>
+	<c:when test="${param.btn1 != null }">
+		${dao.modify(param.id, param.title, param.content) }
+		<c:redirect url="boardList.jsp"></c:redirect>
+	</c:when>
+	<c:otherwise>
+		${dao.delete(param.id) }
+		<c:redirect url="boardList.jsp"></c:redirect>
+	</c:otherwise>
+</c:choose>
+
+
 </body>
 </html>

@@ -38,6 +38,7 @@ public class BoardDAO {
 				d.setId(rs.getInt("id"));
 				d.setName(rs.getString("name"));
 				d.setTitle(rs.getString("title"));
+				d.setHit(rs.getInt("hit"));
 				d.setContent(rs.getString("content"));
 				d.setSavedate(rs.getTimestamp("savedate"));
 				d.setIdgroup(rs.getInt("idgroup"));
@@ -51,41 +52,54 @@ public class BoardDAO {
 		return list;
 	}
 	
+	
 	public void writeSave(String name, String title, String content) {
 		String sql="insert into first_board(id, name, title, content, idgroup, step, indent) "
-				+ "values(0,?,?,?, 0, 0,0)";
-//		idgroup();		
+				+ "values(0,?,?,?,0, 0,0)";
 		try {
 			ps = con.prepareStatement(sql);		
 			ps.setString(1, name);
 			ps.setString(2, title);
-			ps.setString(3, content);
+			ps.setString(3, content);	
 			ps.execute();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
+		int d = getId();
+		hitIdgroup(d);		
 	}
-	
-/*	public void idgroup() {
-		//이걸 처음에 셋팅해줬어야 1부터 같이 시작했을텐데..
-		String sql="update first_board set idgroup = idgroup+1";//where안써도 되나?
+	private int getId() {
+		String sql = "select * from first_board";
+		BoardDTO d= null;
+		try {
+			ps=con.prepareStatement(sql);
+			rs=ps.executeQuery();
+			while(rs.next()) {
+				d = new BoardDTO();
+				d.setId(rs.getInt("id"));	}
+		} catch (Exception e) {	e.printStackTrace();	}
+		System.out.println(d.getId());
+		return d.getId();		
+	}
+	private void hitIdgroup(int id) {
+		String sql = "update first_board set idgroup = id where id=? ";		
 		try {
 			ps = con.prepareStatement(sql);
+			ps.setInt(1, id );
 			ps.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		} catch (Exception e) {	e.printStackTrace();}
 	}
-*/	
+	
+	
+
 	public void upHit(String id) {
 		String sql="update first_board set hit = hit+1 where id =?";
 		try {
 			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
 			ps.executeUpdate();
-			System.out.println("여기안와?");
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("설마여기갔냐/");
 		}
 	}
 	
@@ -129,14 +143,38 @@ public class BoardDAO {
 	}
 	
 	public void delete(String id) {
-		String sql ="delete from first_board where id="+id;
+		String sql ="delete from first_board where id=?";
 		try {
 			ps = con.prepareStatement(sql);
+			ps.setString(1, id);
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+	
+	public void reply(BoardDTO dto) {
+		String sql = "insert into first_board(id, name, title, content, idgroup, step, indent)"
+				+ "values(0, ?,?,?,0,?,?)";
+		try {
+			ps = con.prepareStatement(sql);
+			ps.setString(1, dto.getName() );
+			ps.setString(2, dto.getTitle());
+			ps.setString(3, dto.getContent());
+			ps.setInt(4, dto.getStep()+1);  //댓글들에 대한 위치 조정 .
+			ps.setInt(5, dto.getIndent()+1);
+			ps.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		int d = getId();
+		hitIdgroup(d);		
+		System.out.println(d);
+		System.out.println(dto.getContent());
+		System.out.println(dto.getTitle());
+		System.out.println(dto.getName());
+	}
+	
 	
 	
 }

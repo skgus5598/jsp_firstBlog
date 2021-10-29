@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
 <c:set var="contextPath" value="${pageContext.request.contextPath }" />        
   
 <!DOCTYPE html>
@@ -31,6 +32,7 @@ a{text-decoration: none; color:green;}
 </style>
 </head>
 <body>
+<fmt:requestEncoding value="utf-8"/>
 <jsp:include page="../default/header.jsp"></jsp:include>
 <jsp:useBean id="dao" class="board.dao.BoardDAO"></jsp:useBean>
 <div class="wrap">

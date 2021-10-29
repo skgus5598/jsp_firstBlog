@@ -39,7 +39,10 @@
 			<form action="${contextPath }/board/writeSave.jsp" method="post">
 				<table>				
 					<tr>
-						<td>User</td><td><input type="text" name="name" value="${loginUser }" readonly></td>
+						<td>User</td>
+						<td>
+							<input type="text" name="name" value="${loginUser }" readonly>
+						</td>
 					</tr>
 					<tr>
 						<td>Title</td>
