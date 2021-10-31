@@ -14,9 +14,15 @@
 <body>
 <fmt:requestEncoding value="utf-8"/>
 <jsp:useBean id="dao" class="board.dao.BoardDAO"/>
-<jsp:useBean id="dto" class="board.dto.BoardDTO"/>
-<jsp:setProperty property="*" name="dto"/>
+<jsp:useBean id="dto" class="board.dto.ReplyDTO"/>
+<!-- jsp:setProperty property="*" name="dto"/ -->
+<jsp:setProperty  name="dto" property="boardId" param="id"/>
+<jsp:setProperty  name="dto" property="userId" value="${loginUser }"/>
+<jsp:setProperty  name="dto" property="replyContent" param="replyContent"/>
+
 	${dao.reply(dto) }
+<c:redirect url="contentView.jsp?id=${param.id }"></c:redirect>
+	
 
 </body>
 </html>

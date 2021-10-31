@@ -95,22 +95,45 @@
 							</c:otherwise>
 						</c:choose>					
 				</tr>
+				<c:choose>
+					<c:when test="">
+						
+					</c:when>
+					
+					<c:otherwise>
+					
+					</c:otherwise>
+				</c:choose>
+				
 				<tr>
 					<td colspan="2">
 						<label>Comment</label><br>
-						<textarea rows="5" cols="60" name="content"  placeholder="댓글을 남겨보세요"></textarea>
+						<textarea rows="5" cols="60" name="replyContent"  placeholder="댓글을 남겨보세요"></textarea>
 					</td>						
-				</tr>
+				</tr>				
 				<tr>
 					<td colspan="2">
 						<input class="backBtn" type="button" value="Back" onclick="location.href='${contextPath}/board/boardList.jsp'">			
 						<c:if test="${loginUser == d.name }">						
 							<input class="button" type="submit" value="Modify" onclick="javascript: form.action='modify_delete.jsp'" name="btn1" >
 							<input class="button" type="submit" value="Delete" onclick="javascript: form.action='modify_delete.jsp'" name="btn2"  >
-						</c:if>
+						</c:if>						
 						<input class="replyBtn" type="submit" value="Reply" onclick="javascript: form.action='reply.jsp'">
 					</td>
-				</tr>				
+				</tr>						
+	
+				<c:forEach var="replyDto" items="${dao.replyList() }">
+			  		<c:if test="${d.id == replyDto.boardId }" >
+						<tr>
+						 	<td colspan="2">
+								<label>작성자 : ${replyDto.userId }&nbsp;&nbsp; ${replyDto.savedate }</label><br>
+								<textarea rows="3" cols="60" >${replyDto.replyContent }</textarea>
+							</td>	
+						</tr>
+					</c:if>	
+				</c:forEach>					
+				
+										
 		</table>
 		</form>
 		</div>

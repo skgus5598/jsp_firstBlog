@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import board.dto.BoardDTO;
+import board.dto.ReplyDTO;
 import paging.PageDTO;
 
 
@@ -157,23 +158,41 @@ public class BoardDAO {
 		}
 	}
 	
-	public void reply(BoardDTO dto) {
-		String sql = "insert into first_board(id, name, title, content, idgroup, step, indent)"
-				+ "values(0, ?,?,?,0,?,?)";
+	public void reply(ReplyDTO dto) {
+		String sql = "insert into reply(replyId, boardId, userId, replyContent)"
+				+ "values(0, ?,?,?)";
 		try {
 			ps = con.prepareStatement(sql);
-			ps.setString(1, dto.getName() );
-			ps.setString(2, dto.getTitle());
-			ps.setString(3, dto.getContent());
-			ps.setInt(4, dto.getStep()+1);  //댓글들에 대한 위치 조정 .
-			ps.setInt(5, dto.getIndent()+1);
+			ps.setInt(1, dto.getBoardId());
+			ps.setString(2, dto.getUserId() );
+			ps.setString(3, dto.getReplyContent());
 			ps.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		int d = getId();
-		hitIdgroup(d);		
 	}
+	
+	public ArrayList<ReplyDTO> replyList() {
+		String sql = "select * from reply";
+		 ArrayList<ReplyDTO> replyList = new ArrayList<ReplyDTO>();
+		try {
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				ReplyDTO rdto = new ReplyDTO();
+				rdto.setBoardId(rs.getInt("boardId"));
+				rdto.setUserId(rs.getString("userId"));
+				rdto.setReplyContent(rs.getString("replyContent"));
+				rdto.setSavedate(rs.getTimestamp("savedate"));
+				replyList.add(rdto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return replyList;
+	}
+	
+	
 	public PageDTO pagingNum(int start) {
 		PageDTO pd = new PageDTO();
 		if(start == 0) {
